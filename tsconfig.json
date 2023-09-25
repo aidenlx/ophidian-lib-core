@@ -6,6 +6,13 @@
         "useDefineForClassFields": false,
         "newLine": "lf",
         "moduleResolution": "node",
-        "lib": ["ES2018", "DOM"]
-    }
+        "lib": ["ES2018", "DOM"],
+        "allowJs": true,
+        "outDir": "dist",
+        "skipLibCheck": true,
+        "declaration": true
+    },
+    "include": [
+        "src/**/*.ts", "src/**/*.js"
+    ]
 }
