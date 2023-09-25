@@ -3,6 +3,7 @@ import { Context, Service, onLoad, safeRemoveChild, use } from "../services";
 import { defer } from "../defer";
 import { around } from "monkey-around";
 import { isLeafAttached } from "./walk";
+import { PComponent } from "../component";
 
 export type PWCFactory<C extends PerWindowComponent> = {
     new (use: Context, item: o.WorkspaceContainer): C
@@ -34,7 +35,7 @@ export type PWCFactory<C extends PerWindowComponent> = {
  * and automatically, you can leave off the `.watch()` call, e.g.
  * `titleWidget = this.use(TitleWidget)` instead.
  */
-export class PerWindowComponent extends o.Component {
+export class PerWindowComponent extends PComponent {
 
     win = this.container.win;
 
@@ -142,7 +143,7 @@ export class WindowManager<T extends PerWindowComponent> extends Service {
             if (inst) {
                 this.instances.set(container, inst);
                 this.addChild(inst);  // unload when plugin does
-                container.component.addChild(inst);  // or if the window closes/workspace changes
+                container.component.addChild(inst as o.Component);  // or if the window closes/workspace changes
                 inst.register(() => {
                     // Don't keep it around after unload
                     safeRemoveChild(this, inst);
